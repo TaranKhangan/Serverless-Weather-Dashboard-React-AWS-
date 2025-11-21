@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Search, Heart, Settings, Wind, Droplets, Eye, Gauge, X, XCircle, Cloud, Sun, CloudRain, CloudSnow, CloudDrizzle } from 'lucide-react';
 
-const API_KEY = '39826e0ee5aac233cb8feb3cf44117cf';
-const BASE_URL = 'https://api.openweathermap.org/data/2.5';
+
+const BACKEND_URL = "https://YOUR_API_GATEWAY_URL/weather";
+
 
 export default function WeatherDashboard() {
   const [favorites, setFavorites] = useState([]);
@@ -26,55 +27,55 @@ export default function WeatherDashboard() {
   }, [initialLoad]);
 
   const fetchWeather = async (city, showError = false) => {
-    try {
-      const response = await fetch(
-        `${BASE_URL}/weather?q=${encodeURIComponent(city)}&units=${unit}&appid=${API_KEY}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setWeatherData(prev => {
-          const filtered = prev.filter(w => w.id !== data.id);
-          return [...filtered, data];
-        });
-        setError('');
-        return true;
-      } else {
-        const errorData = await response.json();
-        if (showError) {
-          if (errorData.cod === '404') {
-            setError(`❌ "${city}" not found. Try adding country code: "Mumbai, IN" or "Amritsar, Punjab, IN"`);
-          } else if (errorData.cod === '401') {
-            setError(`🔑 Invalid API key! Please add your OpenWeatherMap API key in the code.`);
-          } else {
-            setError(`⚠️ Error: ${errorData.message || 'Unable to fetch weather data'}`);
-          }
-          setTimeout(() => setError(''), 6000);
-        }
-        return false;
-      }
-    } catch (error) {
-      console.error('Error fetching weather:', error);
+  try {
+    const response = await fetch(
+      `${BACKEND_URL}?type=weather&city=${encodeURIComponent(city)}&units=${unit}`
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      setWeatherData(prev => {
+        const filtered = prev.filter(w => w.id !== data.id);
+        return [...filtered, data];
+      });
+      setError('');
+      return true;
+    } else {
+      const errorData = await response.json();
       if (showError) {
-        setError('🌐 Network error. Please check your internet connection.');
-        setTimeout(() => setError(''), 4000);
+        if (errorData.cod === '404') {
+          setError(`❌ "${city}" not found. Try format: "Mumbai, IN"`);
+        } else {
+          setError(`⚠️ Error: ${errorData.message || 'Unable to fetch weather data'}`);
+        }
+        setTimeout(() => setError(''), 6000);
       }
       return false;
     }
-  };
+  } catch (error) {
+    console.error("Error fetching weather:", error);
+    if (showError) {
+      setError('🌐 Network error. Check your internet connection.');
+      setTimeout(() => setError(''), 4000);
+    }
+    return false;
+  }
+};
 
   const fetchForecast = async (city) => {
-    try {
-      const response = await fetch(
-        `${BASE_URL}/forecast?q=${encodeURIComponent(city)}&units=${unit}&appid=${API_KEY}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setForecastData(data);
-      }
-    } catch (error) {
-      console.error('Error fetching forecast:', error);
+  try {
+    const response = await fetch(
+      `${BACKEND_URL}?type=forecast&city=${encodeURIComponent(city)}&units=${unit}`
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      setForecastData(data);
     }
-  };
+  } catch (error) {
+    console.error("Error fetching forecast:", error);
+  }
+};
 
   const handleSearch = async () => {
     if (searchQuery.trim()) {
@@ -112,32 +113,33 @@ export default function WeatherDashboard() {
   };
 
   const toggleUnit = () => {
-    const newUnit = unit === 'metric' ? 'imperial' : 'metric';
-    setUnit(newUnit);
-    
-    // Fetch fresh data with the new unit for all cities
-    weatherData.forEach(w => {
-      const cityQuery = w.sys.country ? `${w.name}, ${w.sys.country}` : w.name;
-      fetch(`${BASE_URL}/weather?q=${encodeURIComponent(cityQuery)}&units=${newUnit}&appid=${API_KEY}`)
-        .then(res => res.json())
-        .then(data => {
-          setWeatherData(prev => {
-            const filtered = prev.filter(city => city.id !== data.id);
-            return [...filtered, data];
-          });
-        })
-        .catch(err => console.error('Error updating weather:', err));
-    });
-    
-    // Update forecast if a city is selected
-    if (selectedCity) {
-      const cityQuery = selectedCity.sys.country ? `${selectedCity.name}, ${selectedCity.sys.country}` : selectedCity.name;
-      fetch(`${BASE_URL}/forecast?q=${encodeURIComponent(cityQuery)}&units=${newUnit}&appid=${API_KEY}`)
-        .then(res => res.json())
-        .then(data => setForecastData(data))
-        .catch(err => console.error('Error updating forecast:', err));
-    }
-  };
+  const newUnit = unit === 'metric' ? 'imperial' : 'metric';
+  setUnit(newUnit);
+
+  weatherData.forEach(w => {
+    const cityQuery = w.sys.country ? `${w.name}, ${w.sys.country}` : w.name;
+
+    fetch(`${BACKEND_URL}?type=weather&city=${encodeURIComponent(cityQuery)}&units=${newUnit}`)
+      .then(res => res.json())
+      .then(data => {
+        setWeatherData(prev => {
+          const filtered = prev.filter(city => city.id !== data.id);
+          return [...filtered, data];
+        });
+      })
+      .catch(err => console.error('Error updating weather:', err));
+  });
+
+  if (selectedCity) {
+    const cityQuery = selectedCity.sys.country ? `${selectedCity.name}, ${selectedCity.sys.country}` : selectedCity.name;
+
+    fetch(`${BACKEND_URL}?type=forecast&city=${encodeURIComponent(cityQuery)}&units=${newUnit}`)
+      .then(res => res.json())
+      .then(data => setForecastData(data))
+      .catch(err => console.error('Error updating forecast:', err));
+  }
+};
+
 
   const getChartData = () => {
     if (!forecastData) return [];
