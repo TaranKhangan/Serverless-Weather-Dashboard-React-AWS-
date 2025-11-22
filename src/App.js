@@ -71,7 +71,8 @@ export default function WeatherDashboard() {
 
     if (response.ok) {
       const data = await response.json();
-      setForecastData(data);
+      setForecastData(data.list ? data : data.forecast ? { list: data.forecast } : null);
+
     }
   } catch (error) {
     console.error("Error fetching forecast:", error);
@@ -110,7 +111,9 @@ export default function WeatherDashboard() {
 
   const handleCityClick = (city) => {
     setSelectedCity(city);
-    fetchForecast(city.name);
+    const cityQuery = city.sys.country ? `${city.name}, ${city.sys.country}` : city.name;
+fetchForecast(cityQuery);
+
   };
 
   const toggleUnit = () => {
@@ -142,14 +145,17 @@ export default function WeatherDashboard() {
 };
 
 
-  const getChartData = () => {
-    if (!forecastData) return [];
-    return forecastData.list.slice(0, 8).map(item => ({
-      time: new Date(item.dt * 1000).toLocaleTimeString('en-US', { hour: 'numeric' }),
-      temp: Math.round(item.main.temp),
-      feels: Math.round(item.main.feels_like)
-    }));
-  };
+const getChartData = () => {
+  if (!forecastData || !forecastData.list || !Array.isArray(forecastData.list)) {
+    return [];
+  }
+
+  return forecastData.list.slice(0, 8).map(item => ({
+    time: new Date(item.dt * 1000).toLocaleTimeString('en-US', { hour: 'numeric' }),
+    temp: Math.round(item.main.temp),
+    feels: Math.round(item.main.feels_like)
+  }));
+};
 
   const getWeatherIcon = (weatherCode, iconCode) => {
     const size = 100;
