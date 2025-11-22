@@ -3,7 +3,8 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { Search, Heart, Settings, Wind, Droplets, Eye, Gauge, X, XCircle, Cloud, Sun, CloudRain, CloudSnow, CloudDrizzle } from 'lucide-react';
 
 
-const BACKEND_URL = "https://YOUR_API_GATEWAY_URL/weather";
+const BACKEND_URL = "https://0exlns5936.execute-api.ap-south-1.amazonaws.com/weather";
+
 
 
 export default function WeatherDashboard() {
