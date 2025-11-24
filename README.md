@@ -40,38 +40,11 @@
 | **Styling** | CSS3  |
 | **Icons** | Lucide-react |
 | **Charts** | Recharts |
-| **API** | [OpenWeather API](https://openweathermap.org/api) |CDN
-
----
-
-🛠️ Tech Stack
-**Frontend**
-
-React.js
-
-CSS3
-
-Lucide‑React Icons
-
-Recharts (if used)
-
-**Backend**
-
-AWS Lambda (Node.js)
-
-Amazon API Gateway
-
-Parameter Store (for API key security)
-
-**Deployment**
-
-AWS S3 (Static Hosting)
-
-AWS CloudFront (CDN)
-
-**External API**
-
-OpenWeather API
+| **API** | [OpenWeather API](https://openweathermap.org/api)], API Gateway |
+| **Backend** | AWS Lambda (Node.js) |
+| **Security** | Parameter Store (for API key security) |
+| **Deployment** | AWS S3 (Static Hosting), AWS CloudFront (CDN) |
+| **External API** | OpenWeather API |
 
 ---
 
