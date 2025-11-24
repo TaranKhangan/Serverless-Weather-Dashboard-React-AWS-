@@ -11,6 +11,7 @@
 ---
 
 ## ✨ Features
+
 🔍 Real‑Time Weather Search – Fetch weather for any city instantly
 
 🌡️ Detailed Metrics – Temperature, humidity, pressure, wind speed, visibility
@@ -39,13 +40,13 @@
 | **Styling** | CSS3  |
 | **Icons** | Lucide-react |
 | **Charts** | Recharts |
-| **API** | [OpenWeather API](https://openweathermap.org/api) |
+| **API** | [OpenWeather API](https://openweathermap.org/api) |CDN
 
 ---
-CDN
 
 🛠️ Tech Stack
 **Frontend**
+
 React.js
 
 CSS3
@@ -55,6 +56,7 @@ Lucide‑React Icons
 Recharts (if used)
 
 **Backend**
+
 AWS Lambda (Node.js)
 
 Amazon API Gateway
@@ -62,11 +64,13 @@ Amazon API Gateway
 Parameter Store (for API key security)
 
 **Deployment**
+
 AWS S3 (Static Hosting)
 
 AWS CloudFront (CDN)
 
 **External API**
+
 OpenWeather API
 
 ---
@@ -81,6 +85,7 @@ You may also see any lint errors in the console.
 
 ---
 ##☁️ Serverless Architecture (AWS)
+
 React App → CloudFront CDN → S3 Static Hosting  
 React → API Gateway → Lambda → OpenWeather API → React
 
