@@ -6,19 +6,28 @@
 
 ## 🧭 Overview
 
-**Weather Analytics** helps users quickly search, view, and track the weather conditions of multiple cities with an elegant, responsive dashboard.  
-The app is designed with a clean UI, animated icons, and intuitive controls for a better weather-tracking experience.
+**Weather Analytics** A modern, fully responsive React application that provides real‑time weather analytics for cities worldwide using the OpenWeather API, deployed using a serverless AWS architecture (S3 + CloudFront + API Gateway + Lambda). 
 
 ---
 
 ## ✨ Features
+🔍 Real‑Time Weather Search – Fetch weather for any city instantly
 
-- 🔍 **Live City Search** – Get instant weather updates for any city.  
-- ❤️ **Favorite Cities** – Save and manage frequently viewed locations.  
-- 🌡️ **Weather Details** – Temperature, humidity, wind speed, visibility, and more.  
-- 🌙 **Modern UI Design** – Smooth gradients and dark mode look.  
-- 📱 **Responsive Layout** – Optimized for both desktop and mobile.  
-- ⚙️ **Settings Panel** – Customize your dashboard experience.
+🌡️ Detailed Metrics – Temperature, humidity, pressure, wind speed, visibility
+
+📊 Weather Visualization – Clean UI with cards and animated icons
+
+❤️ Favorite Cities Support – Save and quickly revisit your favorite locations
+
+🌓 Modern UI – Smooth gradients & aesthetic design
+
+📱 Fully Responsive – Works on laptop, tablet, and mobile
+
+⚙️ Serverless Backend – AWS Lambda + API Gateway for API calls
+
+🚀 Global Deployment – Hosted on AWS S3 + CloudFront CDN
+
+
 
 ---
 
@@ -33,6 +42,34 @@ The app is designed with a clean UI, animated icons, and intuitive controls for 
 | **API** | [OpenWeather API](https://openweathermap.org/api) |
 
 ---
+CDN
+
+🛠️ Tech Stack
+**Frontend**
+React.js
+
+CSS3
+
+Lucide‑React Icons
+
+Recharts (if used)
+
+**Backend**
+AWS Lambda (Node.js)
+
+Amazon API Gateway
+
+Parameter Store (for API key security)
+
+**Deployment**
+AWS S3 (Static Hosting)
+
+AWS CloudFront (CDN)
+
+**External API**
+OpenWeather API
+
+---
 
 ### `npm start`
 
@@ -41,6 +78,13 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
+
+---
+##☁️ Serverless Architecture (AWS)
+React App → CloudFront CDN → S3 Static Hosting  
+React → API Gateway → Lambda → OpenWeather API → React
+
+
 
 ## Author
 **Taranpreet Kaur**  
